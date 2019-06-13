@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
-    //插入排序
+    //插入排序1
     public  void insertSort(){
         for(int i=1;i<items.length;i++){
             int j=i-1;
