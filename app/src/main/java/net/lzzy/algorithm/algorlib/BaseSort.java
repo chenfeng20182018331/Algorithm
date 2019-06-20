@@ -10,7 +10,7 @@ public abstract class BaseSort <T extends Comparable<? super T>> {
     private int comparecount;//比较次数
     private int swacount;
     int movestep;
-
+//
     BaseSort(T[] items){
         this.items=items;
         comparecount=0;

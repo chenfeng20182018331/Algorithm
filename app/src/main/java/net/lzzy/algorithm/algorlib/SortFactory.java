@@ -7,6 +7,7 @@ import android.widget.SimpleCursorTreeAdapter;
  * Created by lzzy_gxy on 2019/6/20.
  * Description:
  */
+//
 public class SortFactory {
     public static<T extends Comparable<? super T>> BaseSort  getInstance(int key ,T[] items){
         BaseSort<T> sort;
