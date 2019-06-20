@@ -2,11 +2,21 @@ package net.lzzy.algorithm;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.AndroidException;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import net.lzzy.algorithm.algorlib.BaseSort;
+import net.lzzy.algorithm.algorlib.DirectSort;
+import net.lzzy.algorithm.algorlib.SortFactory;
+
+import java.security.Principal;
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -16,16 +26,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Integer[] items;
     private EditText edtItems;
     private TextView tvResult;
-
+private  Spinner spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        edtItems = findViewById(R.id.activity_main_edt_items);
-        findViewById(R.id.activity_main_btn_generate).setOnClickListener(this);
-        findViewById(R.id.activity_main_btn_sort).setOnClickListener(this);
-        tvResult = findViewById(R.id.activity_main_tv_result);
+      initViews();
+      initSpinner();
     }
+
+private  void initSpinner(){
+    Spinner spinner=findViewById(R.id.activity_main_btn_sp);
+    spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, SortFactory.getSortNames()));
+}
+
+
+private  void initViews(){
+    edtItems = findViewById(R.id.activity_main_edt_items);
+    findViewById(R.id.activity_main_btn_generate).setOnClickListener(this);
+    findViewById(R.id.activity_main_btn_sort).setOnClickListener(this);
+    tvResult = findViewById(R.id.activity_main_tv_result);
+
+
+}
+
 
     @Override
     public void onClick(View v) {
@@ -35,8 +59,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 displayItems(edtItems);
                 break;
             case R.id.activity_main_btn_sort:
-                insertSort();
-                displayItems(tvResult);
+                BaseSort<Integer> sort=SortFactory.getInstance(spinner.getSelectedItemPosition(),items);
+                BaseSort<Integer> sortNotNull= Objects.requireNonNull(sort);
+                sortNotNull.getDuration();
+                String result=sortNotNull.getResult();
+                tvResult.setText(result);
+                Toast.makeText(this, "总时长"+sort.getDuration(), Toast.LENGTH_SHORT).show();
+                //DirectSort sort=new DirectSort(items);
+               // sort.sort();
+
+
+
+               // insertSort();
+              //  displayItems(tvResult);
                 break;
             default:
                 break;
@@ -50,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         display = display.substring(0, display.length() - 1);
         tv.setText(display);
+
     }
 
     private void directSort() {
