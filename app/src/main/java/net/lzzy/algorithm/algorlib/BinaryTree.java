@@ -44,11 +44,34 @@ if (comp<0){
     }
 }
 }
-
+private  long start=1;
     @Override
     public int search(T key) {
-        return 0;
+        if (start<0){
+            start=System.currentTimeMillis();
+        }
+        int comp=compare(key,root.second);
+        if (comp==0){
+            setDuration(System.currentTimeMillis()-start);
+            return root.first;
+        }else if (comp>0){
+            if (right==null){
+                setDuration(System.currentTimeMillis()-start);
+                return -1;
+            }else {
+                return right.search(key);
+            }
+
+        }else {
+            if (left==null){
+                setDuration(System.currentTimeMillis()-start);
+                return -1;
+            }else {
+                return left.search(key);
+            }
+        }
     }
 
 }
+
 // 二叉排序树
