@@ -1,21 +1,29 @@
 package net.lzzy.algorithm;
 
+import android.net.sip.SipAudioCall;
+import android.net.sip.SipSession;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AndroidException;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import net.lzzy.algorithm.algorlib.BaseSort;
 import net.lzzy.algorithm.algorlib.DirectSort;
+import net.lzzy.algorithm.algorlib.SearchFactort;
 import net.lzzy.algorithm.algorlib.SortFactory;
 
 import java.security.Principal;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
@@ -27,19 +35,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText edtItems;
     private TextView tvResult;
      private  Spinner spinner;
-     private  Object  swap;
+    private   LinkageError container;
+    private  Spinner  spSearch;
+    private Button btnSort;
+    private View.OnClickListener listener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
       initViews();
       initSpinner();
+      initSearch();
     }
 
-private  void initSpinner(){
-    Spinner spinner=findViewById(R.id.activity_main_btn_sp);
-    spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, SortFactory.getSortNames()));
-}
+
+    private void initSearch() {
+        Spinner spSearch=findViewById(R.id.activity_main_sp_search);
+        spSearch.setAdapter(new ArrayAdapter<>(this,
+        android.R.layout.simple_spinner_dropdown_item,SearchFactort.getSortNames()));
+        LinearLayout container=findViewById(R.id.activity_main_btn_container);
+        findViewById(R.id.activity_main_sp_search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetSearch();
+            }
+        });
+    }
+
+    private void resetSearch() {
+        generateItems();
+        btnSort.callOnClick();
+        for (Integer i :items){
+            Button btn=new Button(this);
+            btn.setText(String.format(i.toString(), Locale.CANADA));
+            btn.setId(i);
+            btn.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT,1));
+            btn.setOnClickListener(listener);
+
+        }
+
+    }
+
+
+
+
+
+    private  void initSpinner(){
+        Spinner spinner=findViewById(R.id.activity_main_btn_sp);
+        // String[] names={"选择排序","直接插入排序","希尔排序"};
+        spinner.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item,SortFactory.getSortNames()));
+
+    }
 
 
 private  void initViews(){

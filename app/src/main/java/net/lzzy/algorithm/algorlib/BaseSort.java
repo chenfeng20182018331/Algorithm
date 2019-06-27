@@ -5,6 +5,7 @@ package net.lzzy.algorithm.algorlib;
  * Description:
  */
 public abstract class BaseSort <T extends Comparable<? super T>> {
+
     T[] items;
     long duration;//时间间隔
     private int comparecount;//比较次数
@@ -55,10 +56,12 @@ public abstract class BaseSort <T extends Comparable<? super T>> {
     }
 
     public int getMovestep(){
+
         return movestep;
     }
 
     public int getSwacount(){
+
         return swacount;
     }
 
